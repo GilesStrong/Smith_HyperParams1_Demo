@@ -7,7 +7,6 @@ dependencies:
   - six
   - numpy
   - seaborn
-  - timeit
   - keras
   - sklearn
   - tensorflow
