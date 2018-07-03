@@ -4,7 +4,6 @@ import pandas
 import math
 import os
 import types
-import h5py
 import timeit
 from six.moves import cPickle as pickle
 

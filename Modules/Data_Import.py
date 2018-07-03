@@ -2,7 +2,6 @@ from __future__ import division
 import pandas
 from six.moves import cPickle as pickle
 
-import pandas
 import numpy as np
 from Modules.HEP_Proc import *
 

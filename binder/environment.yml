@@ -1,0 +1,18 @@
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib
+  - pandas
+  - six
+  - numpy
+  - seaborn
+  - math
+  - os
+  - types
+  - timeit
+  - keras
+  - sklearn
+  - tensorflow
+  - sys
+  - jupyter
