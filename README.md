@@ -3,8 +3,9 @@
 # Hyper-Parameter Optimisation Part I
 Demonstration of the techniques developed by L. Smith in [arXiv:1803:09820](https://arxiv.org/abs/1803.09820) - 
 A disciplined approach to neural network hyper-parameters: Part 1 -- learning rate, batch size, momentum, and weight decay. 
-Originally presented at the journal club during the LIP-Lisbon Big-Data Meeting on 06/07/18
 
+
+Originally presented at the journal club during the LIP-Lisbon Big-Data Meeting on 06/07/18.
 The four notebooks apply the various recommended techniques to a classifer acting on the data from the 2014 [Kaggle HiggsML challenge](https://www.kaggle.com/c/higgs-boson)
 
 Data should be present if running via Binder, otherwise it can be downloaded from [here](http://opendata.cern.ch/record/328)
