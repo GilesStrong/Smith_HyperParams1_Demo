@@ -1,3 +1,6 @@
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/GilesStrong/Smith_HyperParams1_Demo/master)
+.. image:: https://mybinder.org/badge.svg :target: https://mybinder.org/v2/gh/GilesStrong/Smith_HyperParams1_Demo/master
+
 # L. Smith Hyper-Parameter Optimisation Part I
 Demonstration of the techniques developed in [https://arxiv.org/abs/1803.09820](arXiv:1803:09820), originally presented at the journal club during the LIP Big-Data Meeting on 06/07/18
 
