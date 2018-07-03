@@ -1,7 +1,7 @@
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/GilesStrong/Smith_HyperParams1_Demo/master)
 
-# L. Smith Hyper-Parameter Optimisation Part I
-Demonstration of the techniques developed in [https://arxiv.org/abs/1803.09820](arXiv:1803:09820), originally presented at the journal club during the LIP Big-Data Meeting on 06/07/18
+# Hyper-Parameter Optimisation Part I
+Demonstration of the techniques developed by L. Smith in [https://arxiv.org/abs/1803.09820](arXiv:1803:09820), originally presented at the journal club during the LIP-Lisbon Big-Data Meeting on 06/07/18
 
 The four notebooks apply the various recommended techniques to a classifer acting on the data from the 2014 [Kaggle HiggsML challenge](https://www.kaggle.com/c/higgs-boson)
 
