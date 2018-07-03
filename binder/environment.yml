@@ -7,7 +7,9 @@ dependencies:
   - six
   - numpy
   - seaborn
-  - keras
-  - sklearn
-  - tensorflow
   - jupyter
+  - pip
+  - pip:
+    - sklearn
+    - tensorflow
+    - keras
