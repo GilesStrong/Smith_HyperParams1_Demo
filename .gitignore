@@ -1,5 +1,5 @@
 Data/*
-*train_weights/*
+**/train_weights
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
