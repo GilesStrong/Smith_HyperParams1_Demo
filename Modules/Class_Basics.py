@@ -129,6 +129,7 @@ def trainClassifier(model, train, val, trainParams,
         callbacks.append(EarlyStopping(monitor='val_loss', patience=patience, verbose=1, mode='auto')) #Setup early stopping
 
     if saveBest:
+        os.system("mkdir train_weights")
         callbacks.append(ModelCheckpoint("train_weights/best.h5", monitor='val_loss', verbose=0, #Save best performing network
                                      save_best_only=True, save_weights_only=True, mode='auto', period=1))
 
