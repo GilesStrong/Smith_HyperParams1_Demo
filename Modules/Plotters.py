@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 sns.set_style("whitegrid")
 
 def getHistoryPlot(histories):
+    '''Plot train and validation loss evolution of model during (cv) training'''
     plt.figure(figsize=(16,8))
 
     for i, history in enumerate(histories):
@@ -23,6 +24,8 @@ def getHistoryPlot(histories):
     plt.show()
 
 def getModelHistoryComparisonPlot(histories, names, cv=False):
+    '''Compare validation loss evolution for several models
+    cv=True expects history for CV training and plots mean and 68% CI bands'''
     plt.figure(figsize=(16,8))
     
     for i, (history, name) in enumerate(zip(histories, names)):
@@ -39,6 +42,7 @@ def getModelHistoryComparisonPlot(histories, names, cv=False):
     plt.show()
 
 def getLRFinderComparisonPlot(lrFinders, names, logX=True, logY=True):
+    '''Compare loss evolultion against learning rate for several LRFinder callbacks'''
     plt.figure(figsize=(16,8))
     
     for lrFinder, name in zip(lrFinders, names):
@@ -54,6 +58,7 @@ def getLRFinderComparisonPlot(lrFinders, names, logX=True, logY=True):
     plt.show()
 
 def getMonitorComparisonPlot(monitors, names, xAxis='iter', yAxis='Loss', lrLogX=True, logY=True):
+    '''Compare validation loss.accuracy evolution for several models on a per iteration/learning-rate/momentum basis'''
     plt.figure(figsize=(16,8))
     for monitor, name in zip(monitors, names):
         if isinstance(monitor.history['val_loss'][0], list):

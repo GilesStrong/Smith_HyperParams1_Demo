@@ -21,6 +21,8 @@ def AMS(s, b):
         return math.sqrt(radicand)
 
 def amsScanQuick(inData, wFactor=250000./50000.):
+    '''Determine optimum AMS and cut,
+    wFactor used rescale weights to get comparable AMSs'''
     s = np.sum(inData.loc[inData['gen_target'] == 1, 'gen_weight'])
     b = np.sum(inData.loc[inData['gen_target'] == 0, 'gen_weight'])
     tIIs = inData['pred_class'].argsort()

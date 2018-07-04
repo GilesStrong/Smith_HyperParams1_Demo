@@ -25,6 +25,7 @@ from Modules.AMS import amsScanQuick
 pandas.options.mode.chained_assignment = None
 
 def getPreProcPipes(normIn=False, pca=False):
+    '''Constructs a SK-Learn pipeline to preprocess data'''
     stepsIn = []
 
     if not normIn and not pca:
@@ -40,6 +41,10 @@ def getPreProcPipes(normIn=False, pca=False):
     return inputPipe
 
 def getModel(version, nIn, compileArgs):
+    '''Build Keras model with a few arguments
+    NB: modelSwish requires swish activation function to be added to [keras location]/activations.py.
+    def swish(x):
+        return x*sigmoid(x)'''
     model = Sequential()
 
     if 'depth' in compileArgs:
@@ -181,6 +186,7 @@ def foldPrep(training, validation, features, preprocParams):
     return {'x':train_X, 'y':train_y, 'sample_weight':train_w}, {'x':val_X, 'y':val_y, 'sample_weight':val_w}
 
 def cvTrainClassifier(data, features, nFolds, preprocParams, modelParams, trainParams, patience=10, useEarlyStop=True, useCallbacks={}, plot=True):
+    '''Run model in CV over data and return results and mean performance'''
     start = timeit.default_timer()
 
     #Define holders for performance ledgers
@@ -235,6 +241,7 @@ def cvTrainClassifier(data, features, nFolds, preprocParams, modelParams, trainP
 
 def runLRFinder(data, features, modelParams, trainParams, preprocParams, 
                 useValidation=False, lrBounds=[1e-7, 10], verbose=0, plot=True, nEpochs=1):
+    '''Run LR finder callback over data for model and plot loss as function of learning rate'''
     start = timeit.default_timer()
     
     #Data prep
@@ -266,6 +273,7 @@ def runLRFinder(data, features, modelParams, trainParams, preprocParams,
     return lrFinder
 
 def timeBatchsize(modelParams, train, val, lr, batchsize, trainParams):
+    '''Get the per epoch train-time for a given batch size'''
     model = getModel(**{'version':modelParams['version'], 'nIn':modelParams['nIn'],
                         'compileArgs':{**modelParams['compileArgs'], 'lr':lr}}) 
     start = timeit.default_timer()

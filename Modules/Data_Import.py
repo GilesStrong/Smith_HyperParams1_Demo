@@ -10,13 +10,13 @@ classTrainFeatures = ['DER_mass_MMC', 'DER_mass_transverse_met_lep', 'DER_mass_v
 def importData(dirLoc = "../Data/",
                rotate=False, cartesian=True, mode='OpenData'):
     '''Import and preprocess data from CSV'''
-    if mode == 'OpenData':
+    if mode == 'OpenData': #If using data from CERN Open Access
         data = pandas.read_csv(dirLoc + 'atlas-higgs-challenge-2014-v2.csv')
         data.rename(index=str, columns={"KaggleWeight": "gen_weight", 'PRI_met': 'PRI_met_pt'}, inplace=True)
-        data.drop(columns=['Weight'], inplace=True) 
         data = data[data.KaggleSet == 't']
+        data.drop(columns=['Weight', 'KaggleSet'], inplace=True) 
 
-    else:
+    else: # If using data from Kaggle
         data = pandas.read_csv(dirLoc + 'training.csv')
         data.rename(index=str, columns={"Weight": "gen_weight", 'PRI_met': 'PRI_met_pt'}, inplace=True)
 
@@ -24,16 +24,12 @@ def importData(dirLoc = "../Data/",
 
     data['gen_target'] = 0
     data.loc[data.Label == 's', 'gen_target'] = 1
-    data.drop(columns=['Label', 'KaggleSet'], inplace=True)   
+    data.drop(columns=['Label'], inplace=True)   
     trainFeatures = [x for x in data.columns if 'gen' not in x and x != 'EventId']
     print('Training on {} datapoints with {} features:\n{}'.format(len(data), len(trainFeatures), [x for x in trainFeatures]))
-    data['gen_norm_weight'] = 0
+    data['gen_norm_weight'] = 0 #Placeholder for per-batch renormalisation
 
     return data[trainFeatures + ['gen_target', 'gen_weight', 'gen_norm_weight']], trainFeatures
-
-    # return {'inputs': data[trainFeatures].values.astype('float32'),
-    #         'targets': data['gen_target'].values.astype('int'),
-    #         'weights': data['gen_weight'].values.astype('float32')}
 
 def rotateEvent(inData):
     '''Rotate event in phi such that lepton is at phi == 0'''

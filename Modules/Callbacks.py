@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 sns.set_style("whitegrid")
 
 class ValidationMonitor(Callback):
+    '''Callback to monitor validation performance and optimiser settings after every minibatch
+    For short training diagnosis; slow to run, do not use for full training'''
     def __init__(self, valData=None, valBatchSize=None, mode='sgd'):
         super(ValidationMonitor, self).__init__()
         self.valData = valData
@@ -49,7 +51,8 @@ class ValidationMonitor(Callback):
 
 
 class LRFinder(Callback):
-    '''Adapted from fastai version'''
+    '''Learning rate finder callback 
+    - adapted from fastai version to work in Keras and to optionally run over validation data'''
 
     def __init__(self, nSteps, valData=None, valBatchSize=None, lrBounds=[1e-7, 10], verbose=0):
         super(LRFinder, self).__init__()
@@ -132,6 +135,7 @@ class LRFinder(Callback):
         if (loss<self.best and self.iter>10): self.best=loss
 
 class LinearCLR(Callback):
+    '''Cyclical learning rate callback with linear interpolation'''
     def __init__(self, nb, maxLR, minLR, scale=2, reverse=False, plotLR=False):
         super(LinearCLR, self).__init__()
         self.nb = nb*scale
@@ -177,7 +181,8 @@ class LinearCLR(Callback):
         K.set_value(self.model.optimizer.lr, lr)
 
 class CosAnnealLR(Callback):
-    '''Adapted from fastai version'''
+    '''Cosine learning-rate annealing with restarts
+    - Adapted from fastai version for us in Keras'''
     def __init__(self, nb, cycle_mult=1, scale=1, reverse=False, plotLR=False):
         super(CosAnnealLR, self).__init__()
         self.nb = nb*scale
@@ -227,6 +232,7 @@ class CosAnnealLR(Callback):
         K.set_value(self.model.optimizer.lr, lr)
 
 class LinearCMom(Callback):
+    '''Cyclical momentum callback with linear interpolation'''
     def __init__(self, nb, maxMom, minMom, scale=2, reverse=False, plotMom=False, mode='sgd'):
         super(LinearCMom, self).__init__()
         self.nb = nb*scale
@@ -276,6 +282,7 @@ class LinearCMom(Callback):
             K.set_value(self.model.optimizer.beta_1, mom)
 
 class CosAnnealMomentum(Callback):
+    '''Cosine momentum annealing with restarts'''
     def __init__(self, nb, cycle_mult=1, reverse=False):
         super(CosAnnealMomentum, self).__init__()
         self.nb = nb
@@ -318,6 +325,7 @@ class CosAnnealMomentum(Callback):
         K.set_value(self.model.optimizer.momentum, momentum)
 
 class OneCycle(Callback):
+    '''Rather ugly implementation of the 1cycle learning-rate and momentum schedule'''
     def __init__(self, nb, scale=30, ratio=0.5, reverse=False, lrScale=10, momScale=0.1, mode='sgd',
                  annealLR=True, annealMom=True, plot=False):
         '''nb=number of minibatches per epoch, ratio=fraction of epoch spent in first stage,
@@ -430,55 +438,3 @@ class OneCycle(Callback):
         elif self.mode == 'adam':
             K.set_value(self.model.optimizer.beta_1, self.momentum)
         K.set_value(self.model.optimizer.lr, self.lr)
-
-class SWA(Callback):
-    '''Based on fastai version'''
-    def __init__(self, swa_start, clrCallback=None):
-        super(SWA, self).__init__()
-        self.swa_model = None
-        self.base_model = None
-        self.swa_start = swa_start
-        self.epoch = -1
-        self.swa_n = -1
-        self.active = False
-        self.clrCallback = clrCallback
-        
-    def on_train_begin(self, logs={}):
-        if isinstance(self.swa_model, type(None)):
-            self.swa_model = self.model.get_weights()
-            self.base_model = self.swa_model
-            self.epoch = 0
-            self.swa_n = 0
-
-    def on_epoch_end(self, metrics, logs={}):
-        if (self.epoch + 1) >= self.swa_start and (isinstance(self.clrCallback, type(None)) or self.clrCallback.cycle_end):
-            if self.swa_n == 0:
-                print ("SWA beginning")
-                self.active = True
-            elif not isinstance(self.clrCallback, type(None)) and self.clrCallback.cycle_mult > 1:
-                print ("Updating average")
-                self.active = True
-            self.update_average_model()
-            self.swa_n += 1
-        
-        if isinstance(self.clrCallback, type(None)) or self.clrCallback.cycle_end:
-            self.epoch += 1
-
-        if self.active and not (isinstance(self.clrCallback, type(None)) or self.clrCallback.cycle_end or self.clrCallback.cycle_mult == 1):
-            self.active = False
-            
-    def update_average_model(self):
-        # update running average of parameters
-        model_params = self.model.get_weights()
-        swa_params = self.swa_model
-        for model_param, swa_param in zip(model_params, swa_params):
-            swa_param *= self.swa_n
-            swa_param += model_param
-            swa_param /= (self.swa_n + 1)
-
-    def reset_model(self):
-        '''Reset average weights to default'''
-        print("Reseting average weights")
-        self.swa_model = self.base_model
-        self.swa_n = 0
-        self.active = False
