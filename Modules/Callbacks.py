@@ -84,6 +84,7 @@ class LRFinder(Callback):
         if np.log10(self.lrBounds[1])-np.log10(self.lrBounds[0]) >= 3:
             plt.xscale('log')
         plt.ylim(yLim)
+        plt.grid(True, which="both")
         plt.legend(loc='best', fontsize=16)
         plt.xticks(fontsize=16, color='black')
         plt.yticks(fontsize=16, color='black')
