@@ -178,10 +178,10 @@ def foldPrep(training, validation, features, preprocParams):
     #Sample weights - norm to signal + bkg = 2
     training.loc[training.gen_target == 0, 'gen_norm_weight'] = training.loc[training.gen_target == 0, 'gen_weight']/np.sum(training.loc[training.gen_target == 0, 'gen_weight'])
     training.loc[training.gen_target == 1, 'gen_norm_weight'] = training.loc[training.gen_target == 1, 'gen_weight']/np.sum(training.loc[training.gen_target == 1, 'gen_weight'])
-    train_w = training['gen_norm_weight'].astype('float32')
+    train_w = training['gen_norm_weight'].values.astype('float32')
     validation.loc[validation.gen_target == 0, 'gen_norm_weight'] = validation.loc[validation.gen_target == 0, 'gen_weight']/np.sum(validation.loc[validation.gen_target == 0, 'gen_weight'])
     validation.loc[validation.gen_target == 1, 'gen_norm_weight'] = validation.loc[validation.gen_target == 1, 'gen_weight']/np.sum(validation.loc[validation.gen_target == 1, 'gen_weight'])
-    val_w = validation['gen_norm_weight'].astype('float32')
+    val_w = validation['gen_norm_weight'].values.astype('float32')
     val_w *= len(val_w)/len(train_w) #Re-norm val weights to account for differences in sample sizes
 
     return {'x':train_X, 'y':train_y, 'sample_weight':train_w}, {'x':val_X, 'y':val_y, 'sample_weight':val_w}
