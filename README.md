@@ -1,4 +1,5 @@
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/GilesStrong/Smith_HyperParams1_Demo/master)
+[![DOI](https://zenodo.org/badge/138862935.svg)](https://zenodo.org/badge/latestdoi/138862935)
 
 # Hyper-Parameter Optimisation Part I
 Demonstration of the techniques developed by L. Smith in [arXiv:1803:09820](https://arxiv.org/abs/1803.09820) - 
